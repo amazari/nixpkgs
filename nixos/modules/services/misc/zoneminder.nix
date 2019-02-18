@@ -144,7 +144,7 @@ in {
 
         username = mkOption {
           type = types.str;
-          default = "zmuser";
+          default = user;
           description = ''
             Username for accessing the database.
           '';
