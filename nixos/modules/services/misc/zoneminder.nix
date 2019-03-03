@@ -144,7 +144,7 @@ in {
 
         username = mkOption {
           type = types.str;
-          default = "zmuser";
+          default = user;
           description = ''
             Username for accessing the database.
           '';
@@ -205,12 +205,12 @@ in {
 
       mysql = lib.mkIf cfg.database.createLocally {
         ensureDatabases = [ cfg.database.name ];
+        initialDatabases = [{
+          inherit (cfg.database) name; schema = "${pkg}/share/zoneminder/db/zm_create.sql";
+        }];
         ensureUsers = [{
           name = cfg.database.username;
           ensurePermissions = { "${cfg.database.name}.*" = "ALL PRIVILEGES"; };
-          initialDatabases = [
-            { inherit (cfg.database) name; schema = "${pkg}/share/zoneminder/db/zm_create.sql"; }
-          ];
         }];
       };
 
